@@ -1,6 +1,5 @@
 <script setup lang="ts">
 
-const phone = ref('')
 const email = ref('')
 </script>
 
@@ -13,31 +12,28 @@ const email = ref('')
                     <form class="card-body pb-0">
                         <div class="form-control">
                             <label class="label">
-                                <span class="label-text text-xl font-semibold">Enter your Details to Sign Up</span>
+                                <span class="label-text text-xl font-semibold">Forgot Password</span>
                             </label>
-                            <vue-tel-input class="input input-bordered rounded-full" v-model="phone"
-                                mode="international" />
+                            <p>Enter your registered email, and we’ll send instructions to reset your password.</p>
 
                             <input v-model="email" type="email" placeholder="Email your emall"
                                 class="input input-bordered border-muted mt-4 rounded" />
                         </div>
 
                         <div class="form-control mt-6">
-                            <button class="btn btn-primary font-normal text-base border-1 rounded-full">Sign in</button>
+                            <button class="btn btn-primary font-normal text-base border-1 rounded-full">Continue</button>
                         </div>
-                        <label class="label">
-                            <NuxtLink to="/forget-password" class="label-text-alt link link-hover">Forgot password?</NuxtLink>
-                        </label>
+                        
 
                     </form>
 
                     <div class="card-body">
-                        <div class="divider">OR</div>
-                        <button
+                        <!-- <div class="divider">OR</div> -->
+                        <!-- <button
                             class="btn google-btn font-normal text-base rounded-full bg-transparent border-1 border-muted">
                             <img src="../assets/icons/google.png" class="h-6 w-6 " alt="">
                             Sign in using Google
-                        </button>
+                        </button> -->
                         <p class="text-center mt-4">Already have an account? <NuxtLink to="/login"
                                 class="text-primary font-medium">Sign in</NuxtLink>
                         </p>
@@ -55,6 +51,9 @@ const email = ref('')
     background-size: cover;
     background-repeat: no-repeat;
     font-family: 'Poppins', sans-serif;
+}
+.label{
+    padding-left: 0 !important;
 }
 
 .container {
