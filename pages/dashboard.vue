@@ -70,6 +70,8 @@ const submitForm = () => {
 
 <template>
   <div>
+    <!-- Map -->
+    
     <main
       class="flex md:flex-row flex-col md:p-[0.5rem] p-4 md:h-[100vh] h-full relative w-full md:gap-2 gap-[2rem] bg-[#CECBEC]">
 
