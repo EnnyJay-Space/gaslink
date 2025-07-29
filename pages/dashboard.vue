@@ -1,29 +1,29 @@
 <template>
   <div
     class="flex justify-center items-center h-screen bg-[url(/auth-bg.jpg)] bg-cover bg-left bg-no-repeat bg-fixed lg:bg-center">
-    <div class="lg:w-[30%] mx-auto bg-white text-center rounded-2xl shadow p-6">
+    <div class="w-[90%] lg:w-[30%] mx-auto bg-white text-center rounded-2xl shadow p-6">
       <!-- Navbar -->
-      <h4 class="font-bold text-black text-[12px] lg:text-[18px]"> Welcome {{ userName }}</h4>
+      <h4 class="font-bold text-black text-[16px] lg:text-[18px]"> Welcome {{ userName }}</h4>
 
 
-      <div class="bg-[url(/clock-bg.png)] bg-cover bg-center rounded-xl my-6">
+      <div class="bg-[url(/clock-bg.png)] pt-6 bg-cover bg-center rounded-xl my-6">
         <div class="grid grid-cols-2 gap-4 p-4 pb-0">
           <div class="text-start">
-            <h3 class="text-white font-bold mb-4 text-[12px] lg:text-[14px]">
+            <h3 class="text-white font-bold mb-4 text-[14px] lg:text-[16px]">
               {{ currentDate }}
             </h3>
           </div>
           <div class="text-end">
-            <a class="text-white text-[14px]" href="#">Timebook History</a>
+            <h3 class="text-[14px] lg:text-[16px]"><a class="text-white" href="#">Timebook History</a></h3>
           </div>
         </div>
-        <div class="lg:py-6">
+        <div class="py-3 lg:py-6">
           <h3 class="text-white font-bold mb-4 text-[18px] lg:text-[34px]">
             {{ currentTime }}
           </h3>
         </div>
         <div class="p-4 rounded-b-xl bg-[#202B3E]">
-          <p class="text-white font-bold text-[12px] lg:text-[16px]">Total work hours today
+          <p class="text-white font-bold text-[14px] lg:text-[16px]">Total work hours today
             <span class="font-bold ms-6">{{ totalWorkHours }}</span>
           </p>
 
@@ -34,18 +34,18 @@
       <!-- Clock Info -->
       <div class="bg-white w-[100%] mx-auto shadow-md rounded-xl p-4 md:p-4">
         <div class="flex flex-col items-center">
-          <h5 class="text-[12px] lg:text-[18px] font-bold mb-2">My Day Activity</h5>
+          <h5 class="text-[14px] lg:text-[16px] font-bold mb-2">My Day Activity</h5>
           <hr class="border-gray-300 w-[80%] mx-auto mb-3">
           <div class="flex items-center gap-[100px] mb-3">
-            <span class="text-[12px] lg:text-[16px] text-green-600 font-bold">Clocked In</span>
-            <span class="text-[12px] lg:text-[16px] text-gray-600">
+            <span class="text-[14px] lg:text-[16px] text-green-600 font-bold">Clocked In</span>
+            <span class="text-[14px] lg:text-[16px] text-gray-600">
               {{ clockInTime || '--:--:--' }}
             </span>
           </div>
           <hr class="border-gray-300 w-[80%] mx-auto mb-3">
           <div class="flex items-center gap-[100px]">
-            <span class="text-[12px] lg:text-[16px] text-red-600 font-bold">Clocked Out</span>
-            <span class="text-[12px] lg:text-[16px] text-gray-600">
+            <span class="text-[14px] lg:text-[16px] text-red-600 font-bold">Clocked Out</span>
+            <span class="text-[14px] lg:text-[16px] text-gray-600">
               {{ clockOutTime || '--:--:--' }}
             </span>
           </div>
@@ -55,21 +55,22 @@
       <!-- Clock In/Out Buttons -->
       <div class="flex gap-4 justify-center my-6">
         <button v-if="!isClockedIn"
-          class="bg-green-600 text-[12px] h-[150px] w-[150px] lg:text-[16px] font-semibold hover:bg-green-700 text-white px-4 py-2 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.85)]"
+          class="bg-green-600 text-[14px] h-[150px] 6-[150px] lg:text-[16px] font-semibold hover:bg-green-700 text-white px-4 py-2 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.85)]"
           @click="handleClockIn">
 
           <img src="../assets/images/clock-in-out.png" alt="Clock In Icon" class="w-[40%] mb-2 mx-auto">
           Clock In
         </button>
         <button v-else
-          class="h-[150px] w-[150px] bg-red-600 text-[12px] lg:text-[16px] font-semibold hover:bg-red-700 text-white px-4 py-2 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.85)]"
+          class="h-[150px] w-[150px] bg-red-600 text-[14px] lg:text-[16px] font-semibold hover:bg-red-700 text-white px-4 py-2 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.85)]"
           @click="handleClockOut">
           <img src="../assets/images/clock-in-out.png" alt="Clock In Icon" class="w-[40%] mb-2 mx-auto">
           Clock out
         </button>
       </div>
+
       <button @click="logOut" type="button" title="logout"
-        class="bg-red-600 text-[12px] lg:text-[16px] font-semibold hover:bg-red-700 text-white px-4 py-2 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.85)]">Log
+        class="bg-red-600 text-[14px] lg:text-[16px] hover:bg-red-700 w-full text-white px-4 py-2 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.85)]">Log
         Out</button>
     </div>
   </div>
@@ -87,8 +88,8 @@ const router = useRouter()
 
 // Constants 5.026204183192006, 7.908716695235571
 const OFFICE_LOCATION = {
-  lat: 5.02624, 
-  lng: 7.90899 
+  lat: 5.02624,
+  lng: 7.90899
   // lat: 6.6486272,
   // lng: 3.2997376
 }
