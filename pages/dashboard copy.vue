@@ -1,48 +1,46 @@
 <template>
-  <div
-    class="flex justify-center items-center h-screen bg-[url(/auth-bg.jpg)] bg-cover bg-left bg-no-repeat bg-fixed lg:bg-center">
-    <div class="lg:w-[30%] mx-auto bg-white text-center rounded-2xl shadow p-6">
+  <div class="flex justify-center items-center h-screen bg-[url(/auth-bg.jpg)] bg-cover bg-left bg-no-repeat bg-fixed lg:bg-center">
+    <div class="w-[60%] mx-auto bg-white text-center rounded-2xl shadow p-6">
       <!-- Navbar -->
-      <h4 class="font-bold text-black text-[12px] lg:text-[18px]"> Welcome {{ userName }}</h4>
-
-
-      <div class="bg-[url(/clock-bg.png)] bg-cover bg-center rounded-xl my-6">
-        <div class="grid grid-cols-2 gap-4 p-4 pb-0">
-          <div class="text-start">
-            <h3 class="text-white font-bold mb-4 text-[12px] lg:text-[14px]">
-              {{ currentDate }}
-            </h3>
-          </div>
-          <div class="text-end">
-            <a class="text-white text-[14px]" href="#">Timebook History</a>
-          </div>
+      <div class="navbar mb-7 bg-black bg-base-100 shadow-sm rounded-xl">
+        <div class="flex-1 justify-left">
+          <img src="/ef-logo.png" class="w-[90%] lg:w-[30%]" alt="">
         </div>
-        <div class="lg:py-6">
-          <h3 class="text-white font-bold mb-4 text-[18px] lg:text-[34px]">
-            {{ currentTime }}
-          </h3>
-        </div>
-        <div class="p-4 rounded-b-xl bg-[#202B3E]">
-          <p class="text-white font-bold text-[12px] lg:text-[16px]">Total work hours today
-            <span class="font-bold ms-6">{{ totalWorkHours }}</span>
-          </p>
-
+        <h4 class="font-bold text-white text-[12px] lg:text-[18px]"> {{ userName }}</h4>
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+            <div class="w-10 rounded-full">
+              <img alt="Avatar" class="object-cover rounded-full"
+                   src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            </div>
+          </div>
+          <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+            <li><a>Timebook History</a></li>
+            <li><a>Logout</a></li>
+          </ul>
         </div>
       </div>
 
+      <!-- Date and Time -->
+      <h3 class="text-gray-600 font-bold mb-4 text-[12px] lg:text-[16px]">
+        {{ currentDate }} | 🕒 {{ currentTime }}
+      </h3>
 
       <!-- Clock Info -->
       <div class="bg-white w-[100%] mx-auto shadow-md rounded-xl p-4 md:p-4">
         <div class="flex flex-col items-center">
-          <h5 class="text-[12px] lg:text-[18px] font-bold mb-2">My Day Activity</h5>
-          <hr class="border-gray-300 w-[80%] mx-auto mb-3">
+          <h5 class="text-[12px] lg:text-[16px] font-semibold mb-2">Today's Clock Activity</h5>
+          <div class="bg-gray-100 p-4 rounded-xl w-full text-center mb-2">
+            <p class="text-[12px] lg:text-[16px]">🕒 Total work hours today:
+              <span class="font-bold">{{ totalWorkHours }}</span>
+            </p>
+          </div>
           <div class="flex items-center gap-[100px] mb-3">
             <span class="text-[12px] lg:text-[16px] text-green-600 font-bold">Clocked In</span>
             <span class="text-[12px] lg:text-[16px] text-gray-600">
               {{ clockInTime || '--:--:--' }}
             </span>
           </div>
-          <hr class="border-gray-300 w-[80%] mx-auto mb-3">
           <div class="flex items-center gap-[100px]">
             <span class="text-[12px] lg:text-[16px] text-red-600 font-bold">Clocked Out</span>
             <span class="text-[12px] lg:text-[16px] text-gray-600">
@@ -53,24 +51,25 @@
       </div>
 
       <!-- Clock In/Out Buttons -->
-      <div class="flex gap-4 justify-center my-6">
+      <div class="flex gap-4 justify-center mt-6">
         <button v-if="!isClockedIn"
-          class="bg-green-600 text-[12px] h-[150px] w-[150px] lg:text-[16px] font-semibold hover:bg-green-700 text-white px-4 py-2 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.85)]"
+          class="bg-blue-600 text-[12px] lg:text-[16px] font-semibold hover:bg-blue-700 text-white px-4 py-2 rounded-xl shadow"
           @click="handleClockIn">
-
-          <img src="../assets/images/clock-in-out.png" alt="Clock In Icon" class="w-[40%] mb-2 mx-auto">
-          Clock In
+          Clock in with GPS
         </button>
         <button v-else
-          class="h-[150px] w-[150px] bg-red-600 text-[12px] lg:text-[16px] font-semibold hover:bg-red-700 text-white px-4 py-2 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.85)]"
+          class="bg-red-600 text-[12px] lg:text-[16px] font-semibold hover:bg-red-700 text-white px-4 py-2 rounded-xl shadow"
           @click="handleClockOut">
-          <img src="../assets/images/clock-in-out.png" alt="Clock In Icon" class="w-[40%] mb-2 mx-auto">
           Clock out
         </button>
       </div>
-      <button @click="logOut" type="button" title="logout"
-        class="bg-red-600 text-[12px] lg:text-[16px] font-semibold hover:bg-red-700 text-white px-4 py-2 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.85)]">Log
-        Out</button>
+
+      <!-- Placeholder Map -->
+      <div class="mt-8">
+        <div class="w-full skeleton h-[200px] bg-gray-300 rounded-xl flex items-center justify-center text-gray-600">
+          Map Placeholder (Capital Icon)
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -85,15 +84,6 @@ const { $db } = useNuxtApp()
 const auth = getAuth()
 const router = useRouter()
 
-// Constants 5.026204183192006, 7.908716695235571
-const OFFICE_LOCATION = {
-  lat: 5.02624, 
-  lng: 7.90899 
-  // lat: 6.6486272,
-  // lng: 3.2997376
-}
-const ALLOWED_RADIUS = 500 // in meters
-
 // Reactive states
 const user = ref(auth.currentUser)
 const userName = ref('')
@@ -105,7 +95,7 @@ const totalWorkHours = ref('00:00:00')
 const isClockedIn = ref(false)
 const userId = ref('')
 
-// Time updater
+// Update live time
 function updateTime() {
   const now = new Date()
   const h = String(now.getHours()).padStart(2, '0')
@@ -114,24 +104,7 @@ function updateTime() {
   currentTime.value = `${h}:${m}:${s}`
 }
 
-// Haversine formula to calculate distance between two coordinates
-function calculateDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371e3 // Earth radius in meters
-  const toRad = deg => deg * Math.PI / 180
-  const φ1 = toRad(lat1)
-  const φ2 = toRad(lat2)
-  const Δφ = toRad(lat2 - lat1)
-  const Δλ = toRad(lon2 - lon1)
-
-  const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-    Math.cos(φ1) * Math.cos(φ2) *
-    Math.sin(Δλ / 2) * Math.sin(Δλ / 2)
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-  return R * c // distance in meters
-}
-
-// Load user and timebook data
+// Load user info and today's clock data
 async function loadUserData() {
   try {
     const userDocRef = doc($db, 'users', user.value.uid)
@@ -148,6 +121,7 @@ async function loadUserData() {
       clockInTime.value = data.clockInTime || ''
       clockOutTime.value = data.clockOutTime || ''
       totalWorkHours.value = data.totalWorkHours || '00:00:00'
+      console.log('Timebook data loaded:', data)
       isClockedIn.value = !!data.clockInTime && !data.clockOutTime
     }
   } catch (err) {
@@ -155,22 +129,12 @@ async function loadUserData() {
   }
 }
 
-// Handle clock-in with GPS validation
+// Clock in handler
+// Clock in handler
 async function handleClockIn() {
   navigator.geolocation.getCurrentPosition(async position => {
-
-    const { latitude, longitude } = position.coords
-    const distance = calculateDistance(latitude, longitude, OFFICE_LOCATION.lat, OFFICE_LOCATION.lng)
-    console.log('Current location:', latitude, longitude)
-    console.log('Distance from office:', distance)
-
-    if (distance > ALLOWED_RADIUS) {
-      alert('You are not within the office premises. Clock-in denied.')
-      return
-    }
-
     const now = new Date()
-    const timeString = now.toTimeString().split(' ')[0]
+    const timeString = now.toTimeString().split(' ')[0] // "HH:MM:SS"
     const todayKey = now.toISOString().split('T')[0]
     const docRef = doc($db, 'timebooks', `${userId.value}_${todayKey}`)
 
@@ -181,8 +145,8 @@ async function handleClockIn() {
       totalWorkHours: '',
       date: todayKey,
       location: {
-        lat: latitude,
-        lng: longitude
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
       }
     })
 
@@ -194,10 +158,12 @@ async function handleClockIn() {
   })
 }
 
-// Handle clock-out
+
+// Clock out handler
+// Clock out handler
 async function handleClockOut() {
   const now = new Date()
-  const timeString = now.toTimeString().split(' ')[0]
+  const timeString = now.toTimeString().split(' ')[0] // "HH:MM:SS"
   const todayKey = now.toISOString().split('T')[0]
   const docRef = doc($db, 'timebooks', `${userId.value}_${todayKey}`)
 
@@ -229,17 +195,11 @@ async function handleClockOut() {
   }
 }
 
-function logOut() {
-  auth.signOut().then(() => {
-    router.push('/')
-  }).catch(err => {
-    console.error('Logout failed:', err)
-  })
-}
-// On mount
+
+// Init on mount
 onMounted(async () => {
   if (!user.value) {
-    router.push('/')
+    router.push('/login')
   } else {
     await loadUserData()
   }
@@ -247,5 +207,4 @@ onMounted(async () => {
   updateTime()
   setInterval(updateTime, 1000)
 })
-
 </script>

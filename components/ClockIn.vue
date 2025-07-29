@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex justify-center items-center h-screen bg-[url(/auth-bg.jpg)] bg-cover bg-left bg-no-repeat bg-fixed lg:bg-center">
-    <div class="lg:w-[30%] mx-auto bg-white text-center rounded-2xl shadow p-6">
+    <div class="w-[30%] mx-auto bg-white text-center rounded-2xl shadow p-6">
       <!-- Navbar -->
       <h4 class="font-bold text-black text-[12px] lg:text-[18px]"> Welcome {{ userName }}</h4>
 
@@ -24,9 +24,9 @@
         </div>
         <div class="p-4 rounded-b-xl bg-[#202B3E]">
           <p class="text-white font-bold text-[12px] lg:text-[16px]">Total work hours today
-            <span class="font-bold ms-6">{{ totalWorkHours }}</span>
-          </p>
-
+              <span class="font-bold ms-6">{{ totalWorkHours }}</span>
+            </p>
+          
         </div>
       </div>
 
@@ -57,7 +57,7 @@
         <button v-if="!isClockedIn"
           class="bg-green-600 text-[12px] h-[150px] w-[150px] lg:text-[16px] font-semibold hover:bg-green-700 text-white px-4 py-2 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.85)]"
           @click="handleClockIn">
-
+          
           <img src="../assets/images/clock-in-out.png" alt="Clock In Icon" class="w-[40%] mb-2 mx-auto">
           Clock In
         </button>
@@ -68,9 +68,6 @@
           Clock out
         </button>
       </div>
-      <button @click="logOut" type="button" title="logout"
-        class="bg-red-600 text-[12px] lg:text-[16px] font-semibold hover:bg-red-700 text-white px-4 py-2 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.85)]">Log
-        Out</button>
     </div>
   </div>
 </template>
@@ -85,15 +82,6 @@ const { $db } = useNuxtApp()
 const auth = getAuth()
 const router = useRouter()
 
-// Constants 5.026204183192006, 7.908716695235571
-const OFFICE_LOCATION = {
-  lat: 5.02624, 
-  lng: 7.90899 
-  // lat: 6.6486272,
-  // lng: 3.2997376
-}
-const ALLOWED_RADIUS = 500 // in meters
-
 // Reactive states
 const user = ref(auth.currentUser)
 const userName = ref('')
@@ -105,7 +93,7 @@ const totalWorkHours = ref('00:00:00')
 const isClockedIn = ref(false)
 const userId = ref('')
 
-// Time updater
+// Update live time
 function updateTime() {
   const now = new Date()
   const h = String(now.getHours()).padStart(2, '0')
@@ -114,24 +102,7 @@ function updateTime() {
   currentTime.value = `${h}:${m}:${s}`
 }
 
-// Haversine formula to calculate distance between two coordinates
-function calculateDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371e3 // Earth radius in meters
-  const toRad = deg => deg * Math.PI / 180
-  const φ1 = toRad(lat1)
-  const φ2 = toRad(lat2)
-  const Δφ = toRad(lat2 - lat1)
-  const Δλ = toRad(lon2 - lon1)
-
-  const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-    Math.cos(φ1) * Math.cos(φ2) *
-    Math.sin(Δλ / 2) * Math.sin(Δλ / 2)
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-  return R * c // distance in meters
-}
-
-// Load user and timebook data
+// Load user info and today's clock data
 async function loadUserData() {
   try {
     const userDocRef = doc($db, 'users', user.value.uid)
@@ -148,6 +119,7 @@ async function loadUserData() {
       clockInTime.value = data.clockInTime || ''
       clockOutTime.value = data.clockOutTime || ''
       totalWorkHours.value = data.totalWorkHours || '00:00:00'
+      console.log('Timebook data loaded:', data)
       isClockedIn.value = !!data.clockInTime && !data.clockOutTime
     }
   } catch (err) {
@@ -155,22 +127,12 @@ async function loadUserData() {
   }
 }
 
-// Handle clock-in with GPS validation
+// Clock in handler
+// Clock in handler
 async function handleClockIn() {
   navigator.geolocation.getCurrentPosition(async position => {
-
-    const { latitude, longitude } = position.coords
-    const distance = calculateDistance(latitude, longitude, OFFICE_LOCATION.lat, OFFICE_LOCATION.lng)
-    console.log('Current location:', latitude, longitude)
-    console.log('Distance from office:', distance)
-
-    if (distance > ALLOWED_RADIUS) {
-      alert('You are not within the office premises. Clock-in denied.')
-      return
-    }
-
     const now = new Date()
-    const timeString = now.toTimeString().split(' ')[0]
+    const timeString = now.toTimeString().split(' ')[0] // "HH:MM:SS"
     const todayKey = now.toISOString().split('T')[0]
     const docRef = doc($db, 'timebooks', `${userId.value}_${todayKey}`)
 
@@ -181,8 +143,8 @@ async function handleClockIn() {
       totalWorkHours: '',
       date: todayKey,
       location: {
-        lat: latitude,
-        lng: longitude
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
       }
     })
 
@@ -194,10 +156,12 @@ async function handleClockIn() {
   })
 }
 
-// Handle clock-out
+
+// Clock out handler
+// Clock out handler
 async function handleClockOut() {
   const now = new Date()
-  const timeString = now.toTimeString().split(' ')[0]
+  const timeString = now.toTimeString().split(' ')[0] // "HH:MM:SS"
   const todayKey = now.toISOString().split('T')[0]
   const docRef = doc($db, 'timebooks', `${userId.value}_${todayKey}`)
 
@@ -229,17 +193,11 @@ async function handleClockOut() {
   }
 }
 
-function logOut() {
-  auth.signOut().then(() => {
-    router.push('/')
-  }).catch(err => {
-    console.error('Logout failed:', err)
-  })
-}
-// On mount
+
+// Init on mount
 onMounted(async () => {
   if (!user.value) {
-    router.push('/')
+    router.push('/login')
   } else {
     await loadUserData()
   }
@@ -247,5 +205,4 @@ onMounted(async () => {
   updateTime()
   setInterval(updateTime, 1000)
 })
-
 </script>

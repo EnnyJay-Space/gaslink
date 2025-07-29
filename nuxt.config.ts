@@ -7,7 +7,6 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      apiBase: 'http://localhost:5000/api', // Backend URL
     }
   },
   app: {
@@ -26,7 +25,7 @@ export default defineNuxtConfig({
     },
   },
   plugins: [
-    '~/plugins/vue-tel-input.js'
+  
   ]
 
 })
