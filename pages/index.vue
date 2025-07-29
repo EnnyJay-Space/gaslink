@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center items-center h-screen bg-[url(/auth-bg.jpg)] bg-cover bg-left lg:bg-center">
-        <div class="bg-white rounded-[8px] shadow-xl w-[90%] max-w-[360px]">
+        <div class="bg-white rounded-[8px] shadow-xl w-[90%] max-w-[390px]">
             <div class="bg-blue-700 p-4 rounded-t-[8px]">
                 <img src="/logo.webp" class="w-[70%] mx-auto" alt="">
             </div>
@@ -18,7 +18,7 @@
                     <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">
                         Login
                     </button>
-                    <p v-if="error" class="text-red-500 mt-4 text-center">{{ error }}</p>
+                    <p v-if="error" class="text-red-500 text-[14px] mt-4 text-center">{{ error }}</p>
                 </form>
             </div>
         </div>

@@ -6,15 +6,15 @@
       <h4 class="font-bold text-black text-[16px] lg:text-[18px]"> Welcome {{ userName }}</h4>
 
 
-      <div class="bg-[url(/clock-bg.png)] pt-6 bg-cover bg-center rounded-xl my-6">
-        <div class="grid grid-cols-2 gap-4 p-4 pb-0">
+      <div class="bg-[url(/clock-bg.png)] bg-cover bg-center rounded-xl mb-6">
+        <div class="grid grid-cols-2 gap-4 p-4 pt-8 pb-0">
           <div class="text-start">
             <h3 class="text-white font-bold mb-4 text-[14px] lg:text-[16px]">
               {{ currentDate }}
             </h3>
           </div>
           <div class="text-end">
-            <h3 class="text-[14px] lg:text-[16px]"><a class="text-white" href="#">Timebook History</a></h3>
+            <NuxtLink to="/timebookhistory" class="text-[14px] lg:text-[14px] font-semibold text-white">View History</NuxtLink>
           </div>
         </div>
         <div class="py-3 lg:py-6">
@@ -34,7 +34,7 @@
       <!-- Clock Info -->
       <div class="bg-white w-[100%] mx-auto shadow-md rounded-xl p-4 md:p-4">
         <div class="flex flex-col items-center">
-          <h5 class="text-[14px] lg:text-[16px] font-bold mb-2">My Day Activity</h5>
+          <h5 class="text-[14px] text-black lg:text-[16px] font-bold mb-2">My Day Activity</h5>
           <hr class="border-gray-300 w-[80%] mx-auto mb-3">
           <div class="flex items-center gap-[100px] mb-3">
             <span class="text-[14px] lg:text-[16px] text-green-600 font-bold">Clocked In</span>
@@ -72,6 +72,20 @@
       <button @click="logOut" type="button" title="logout"
         class="bg-red-600 text-[14px] lg:text-[16px] hover:bg-red-700 w-full text-white px-4 py-2 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.85)]">Log
         Out</button>
+      <!-- Open the modal-->
+      <dialog id="clockOutModal" class="modal" ref="clockOutModal">
+        <div class="modal-box">
+          <h3 class="text-lg font-bold">Hello {{ userName }}!</h3>
+          <p class="py-4">
+            Hope you had a nice day! <br />
+            See you tomorrow. Bye!
+          </p>
+          <div class="modal-action justify-center mt-0">
+            <button class="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-white" @click="closeModal">Bye and
+              close</button>
+          </div>
+        </div>
+      </dialog>
     </div>
   </div>
 </template>
@@ -82,16 +96,17 @@ import { getAuth } from 'firebase/auth'
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { useRouter } from 'vue-router'
 
-const { $db } = useNuxtApp()
 const auth = getAuth()
+const { $db } = useNuxtApp()
 const router = useRouter()
+const clockOutModal = ref(null)
 
 // Constants 5.026204183192006, 7.908716695235571
 const OFFICE_LOCATION = {
-  lat: 5.02624,
-  lng: 7.90899
-  // lat: 6.6486272,
-  // lng: 3.2997376
+  // lat: 5.02624,
+  // lng: 7.90899
+  lat: 6.6486272,
+  lng: 3.2997376
 }
 const ALLOWED_RADIUS = 500 // in meters
 
@@ -227,6 +242,7 @@ async function handleClockOut() {
     clockOutTime.value = timeString
     totalWorkHours.value = total
     isClockedIn.value = false
+    clockOutModal.value?.showModal()
   }
 }
 
@@ -237,6 +253,12 @@ function logOut() {
     console.error('Logout failed:', err)
   })
 }
+
+const closeModal = () => {
+  clockOutModal.value?.close()
+}
+
+
 // On mount
 onMounted(async () => {
   if (!user.value) {
