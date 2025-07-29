@@ -20,7 +20,7 @@
             id="day"
             type="date"
             v-model="selectedDay"
-            class="border px-4 py-1 bg-white text-black-600 rounded-md ml-2 text-[14px]"
+            class="border px-4 py-1 bg-white text-black rounded-md ml-2 text-[14px]"
             @change="onDayChange"
           />
         </div>
@@ -32,7 +32,7 @@
             id="month"
             type="month"
             v-model="selectedMonth"
-            class="border px-4 py-1 bg-white text-black-600 rounded-md ml-2 text-[14px]"
+            class="border px-4 py-1 bg-white text-black rounded-md ml-2 text-[14px]"
             @change="onMonthChange"
           />
         </div>
@@ -51,10 +51,10 @@
           </thead>
           <tbody>
             <tr v-for="(record, index) in filteredRecords" :key="index">
-              <td class="text-[14px] bg-white text-black-800">{{ formatDate(record.date) }}</td>
-              <td class="text-[14px] bg-white text-black-800">{{ record.clockInTime || '-' }}</td>
-              <td class="text-[14px] bg-white text-black-800">{{ record.clockOutTime || '-' }}</td>
-              <td class="text-[14px] bg-white text-black-800">{{ record.totalWorkHours || '-' }}</td>
+              <td class="text-[14px] bg-white text-black">{{ formatDate(record.date) }}</td>
+              <td class="text-[14px] bg-white text-black">{{ record.clockInTime || '-' }}</td>
+              <td class="text-[14px] bg-white text-black">{{ record.clockOutTime || '-' }}</td>
+              <td class="text-[14px] bg-white text-black">{{ record.totalWorkHours || '-' }}</td>
             </tr>
           </tbody>
         </table>
