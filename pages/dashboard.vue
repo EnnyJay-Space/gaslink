@@ -3,7 +3,7 @@
     class="flex justify-center items-center h-screen bg-[url(/auth-bg.jpg)] bg-cover bg-left bg-no-repeat bg-fixed lg:bg-center">
     <div class="w-[90%] lg:w-[30%] mx-auto bg-white text-center rounded-2xl shadow p-6">
       <!-- Navbar -->
-      <h4 class="font-bold text-black text-[16px] lg:text-[18px]"> Welcome {{ userName }}</h4>
+      <h4 class="font-bold text-black text-[16px] lg:text-[18px]"> Welcome, {{ userName }}</h4>
 
 
       <div class="bg-[url(/clock-bg.png)] bg-cover bg-center rounded-xl mb-6">
@@ -70,7 +70,7 @@
       </div>
 
       <button @click="logOut" type="button" title="logout"
-        class="bg-red-600 text-[14px] lg:text-[16px] hover:bg-red-700 w-full text-white px-4 py-2 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.85)]">Log
+        class="bg-red-600 text-[14px] lg:text-[16px] hover:bg-red-700 w-full text-white px-4 py-2 rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.55)]">Log
         Out</button>
       <!-- Open the modal-->
       <dialog id="clockOutModal" class="modal" ref="clockOutModal">

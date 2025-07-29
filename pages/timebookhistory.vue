@@ -15,24 +15,24 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
         <!-- Day Filter -->
         <div class="lg:mb-4 flex justify-center lg:justify-start items-center">
-          <label for="day" class="font-medium text-[14px] ">Select Day:</label>
+          <label for="day" class="font-medium text-black text-[14px] ">Select Day:</label>
           <input
             id="day"
             type="date"
             v-model="selectedDay"
-            class="border px-4 py-1 rounded-md ml-2 text-[14px]"
+            class="border px-4 py-1 bg-white text-black-600 rounded-md ml-2 text-[14px]"
             @change="onDayChange"
           />
         </div>
 
         <!-- Month Filter -->
         <div class="mb-4 flex justify-center lg:justify-end items-center">
-          <label for="month" class="font-medium text-[14px] ">Select Month:</label>
+          <label for="month" class="font-medium text-black text-[14px] ">Select Month:</label>
           <input
             id="month"
             type="month"
             v-model="selectedMonth"
-            class="border px-4 py-1 rounded-md ml-2 text-[14px]"
+            class="border px-4 py-1 bg-white text-black-600 rounded-md ml-2 text-[14px]"
             @change="onMonthChange"
           />
         </div>
@@ -41,20 +41,20 @@
       <!-- Table -->
       <div class="overflow-x-auto shadow-lg">
         <table class="table w-full">
-          <thead>
+          <thead class="bg-white">
             <tr class="bg-base-200">
-              <th class="text-black">Date</th>
-              <th class="text-black">Clock In</th>
-              <th class="text-black">Clock Out</th>
-              <th class="text-black">Total Hours</th>
+              <th class="bg-white text-black">Date</th>
+              <th class="bg-white text-black">Clock In</th>
+              <th class="bg-white text-black">Clock Out</th>
+              <th class="bg-white text-black">Total Hours</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(record, index) in filteredRecords" :key="index">
-              <td class="text-[14px]">{{ formatDate(record.date) }}</td>
-              <td class="text-[14px]">{{ record.clockInTime || '-' }}</td>
-              <td class="text-[14px]">{{ record.clockOutTime || '-' }}</td>
-              <td class="text-[14px]">{{ record.totalWorkHours || '-' }}</td>
+              <td class="text-[14px] bg-white text-black-800">{{ formatDate(record.date) }}</td>
+              <td class="text-[14px] bg-white text-black-800">{{ record.clockInTime || '-' }}</td>
+              <td class="text-[14px] bg-white text-black-800">{{ record.clockOutTime || '-' }}</td>
+              <td class="text-[14px] bg-white text-black-800">{{ record.totalWorkHours || '-' }}</td>
             </tr>
           </tbody>
         </table>
