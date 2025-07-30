@@ -103,10 +103,10 @@ const clockOutModal = ref(null)
 
 // Constants 5.026204183192006, 7.908716695235571
 const OFFICE_LOCATION = {
-  // lat: 5.02624,
-  // lng: 7.90899
-  lat: 6.6486272,
-  lng: 3.2997376
+  lat: 5.02624,
+  lng: 7.90899
+  // lat: 6.6486272,
+  // lng: 3.2997376
 }
 const ALLOWED_RADIUS = 500 // in meters
 
