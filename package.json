@@ -11,10 +11,15 @@
   },
   "dependencies": {
     "@nuxtjs/tailwindcss": "^6.13.1",
+    "chart.js": "^4.5.0",
     "date-fns": "^4.1.0",
     "firebase": "^12.0.0",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "nuxt": "^3.15.2",
+    "papaparse": "^5.5.3",
     "vue": "latest",
+    "vue-chartjs": "^5.3.2",
     "vue-router": "latest",
     "vue3-tel-input": "^1.0.4",
     "vuefire": "^3.2.2"
